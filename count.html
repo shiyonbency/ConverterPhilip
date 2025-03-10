@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            overflow: hidden; /* Prevents body overflow */
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh; /* Allow container to be scrollable */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            overflow-y: auto; /* Enable scrolling within the container */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .unit-converter {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .converter-box {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .converter-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .converter-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #555;
+            text-align: center;
+        }
+
+        .converter-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .converter-box input:focus {
+            border-color: #007bff;
+        }
+
+        .converter-box button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .converter-box button:hover {
+            background-color: #0056b3;
+        }
+
+        .converter-box button:disabled {
+            background-color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .unit-converter {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Unit Converter By Shiyon Philip</h1>
+
+    <div class="unit-converter">
+
+        <!-- Centimeters to Meters -->
+        <div class="converter-box">
+            <h3>Centimeters to Meters</h3>
+            <input type="number" id="cm" placeholder="Centimeters" oninput="validateInput('cm')" onkeypress="handleKeyPress(event, 'cm')">
+            <input type="number" id="m" readonly placeholder="Meters">
+            <button onclick="convertCmToM()">Calculate</button>
+        </div>
+
+        <!-- Meters to Centimeters -->
+        <div class="converter-box">
+            <h3>Meters to Centimeters</h3>
+            <input type="number" id="m2" placeholder="Meters" oninput="validateInput('m2')" onkeypress="handleKeyPress(event, 'm2')">
+            <input type="number" id="cm2" readonly placeholder="Centimeters">
+            <button onclick="convertMToCm()">Calculate</button>
+        </div>
+
+        <!-- Inches to Centimeters -->
+        <div class="converter-box">
+            <h3>Inches to Centimeters</h3>
+            <input type="number" id="in" placeholder="Inches" oninput="validateInput('in')" onkeypress="handleKeyPress(event, 'in')">
+            <input type="number" id="cm3" readonly placeholder="Centimeters">
+            <button onclick="convertInToCm()">Calculate</button>
+        </div>
+
+        <!-- Centimeters to Inches -->
+        <div class="converter-box">
+            <h3>Centimeters to Inches</h3>
+            <input type="number" id="cm4" placeholder="Centimeters" oninput="validateInput('cm4')" onkeypress="handleKeyPress(event, 'cm4')">
+            <input type="number" id="in2" readonly placeholder="Inches">
+            <button onclick="convertCmToIn()">Calculate</button>
+        </div>
+
+        <!-- Kilograms to Pounds -->
+        <div class="converter-box">
+            <h3>Kilograms to Pounds</h3>
+            <input type="number" id="kg" placeholder="Kilograms" oninput="validateInput('kg')" onkeypress="handleKeyPress(event, 'kg')">
+            <input type="number" id="lbs" readonly placeholder="Pounds">
+            <button onclick="convertKgToLbs()">Calculate</button>
+        </div>
+
+        <!-- Pounds to Kilograms -->
+        <div class="converter-box">
+            <h3>Pounds to Kilograms</h3>
+            <input type="number" id="lbs2" placeholder="Pounds" oninput="validateInput('lbs2')" onkeypress="handleKeyPress(event, 'lbs2')">
+            <input type="number" id="kg2" readonly placeholder="Kilograms">
+            <button onclick="convertLbsToKg()">Calculate</button>
+        </div>
+
+        <!-- Liters to Gallons -->
+        <div class="converter-box">
+            <h3>Liters to Gallons</h3>
+            <input type="number" id="liters" placeholder="Liters" oninput="validateInput('liters')" onkeypress="handleKeyPress(event, 'liters')">
+            <input type="number" id="gallons" readonly placeholder="Gallons">
+            <button onclick="convertLitersToGallons()">Calculate</button>
+        </div>
+
+        <!-- Gallons to Liters -->
+        <div class="converter-box">
+            <h3>Gallons to Liters</h3>
+            <input type="number" id="gallons2" placeholder="Gallons" oninput="validateInput('gallons2')" onkeypress="handleKeyPress(event, 'gallons2')">
+            <input type="number" id="liters2" readonly placeholder="Liters">
+            <button onclick="convertGallonsToLiters()">Calculate</button>
+        </div>
+
+        <!-- Celsius to Fahrenheit -->
+        <div class="converter-box">
+            <h3>Celsius to Fahrenheit</h3>
+            <input type="number" id="celsius" placeholder="Celsius" oninput="validateInput('celsius')" onkeypress="handleKeyPress(event, 'celsius')">
+            <input type="number" id="fahrenheit" readonly placeholder="Fahrenheit">
+            <button onclick="convertCelsiusToFahrenheit()">Calculate</button>
+        </div>
+
+        <!-- Fahrenheit to Celsius -->
+        <div class="converter-box">
+            <h3>Fahrenheit to Celsius</h3>
+            <input type="number" id="fahrenheit2" placeholder="Fahrenheit" oninput="validateInput('fahrenheit2')" onkeypress="handleKeyPress(event, 'fahrenheit2')">
+            <input type="number" id="celsius2" readonly placeholder="Celsius">
+            <button onclick="convertFahrenheitToCelsius()">Calculate</button>
+        </div>
+
+        <!-- Joules to Calories -->
+        <div class="converter-box">
+            <h3>Joules to Calories</h3>
+            <input type="number" id="joules" placeholder="Joules" oninput="validateInput('joules')" onkeypress="handleKeyPress(event, 'joules')">
+            <input type="number" id="calories" readonly placeholder="Calories">
+            <button onclick="convertJoulesToCalories()">Calculate</button>
+        </div>
+
+        <!-- Calories to Joules -->
+        <div class="converter-box">
+            <h3>Calories to Joules</h3>
+            <input type="number" id="calories2" placeholder="Calories" oninput="validateInput('calories2')" onkeypress="handleKeyPress(event, 'calories2')">
+            <input type="number" id="joules2" readonly placeholder="Joules">
+            <button onclick="convertCaloriesToJoules()">Calculate</button>
+        </div>
+
+        <!-- Meters per Second to Kilometers per Hour -->
+        <div class="converter-box">
+            <h3>M/s to km/h</h3>
+            <input type="number" id="mps" placeholder="Meters per Second" oninput="validateInput('mps')" onkeypress="handleKeyPress(event, 'mps')">
+            <input type="number" id="kmph" readonly placeholder="Kilometers per Hour">
+            <button onclick="convertMpsToKmph()">Calculate</button>
+        </div>
+
+        <!-- Kilometers per Hour to Meters per Second -->
+        <div class="converter-box">
+            <h3>km/h to M/s</h3>
+            <input type="number" id="kmph2" placeholder="Kilometers per Hour" oninput="validateInput('kmph2')" onkeypress="handleKeyPress(event, 'kmph2')">
+            <input type="number" id="mps2" readonly placeholder="Meters per Second">
+            <button onclick="convertKmphToMps()">Calculate</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Conversion Functions
+    function convertCmToM() {
+        let cm = parseFloat(document.getElementById("cm").value);
+        if (!isNaN(cm)) {
+            document.getElementById("m").value = cm / 100;
+        }
+    }
+
+    function convertMToCm() {
+        let m = parseFloat(document.getElementById("m2").value);
+        if (!isNaN(m)) {
+            document.getElementById("cm2").value = m * 100;
+        }
+    }
+
+    function convertInToCm() {
+        let inInches = parseFloat(document.getElementById("in").value);
+        if (!isNaN(inInches)) {
+            document.getElementById("cm3").value = inInches * 2.54;
+        }
+    }
+
+    function convertCmToIn() {
+        let cm = parseFloat(document.getElementById("cm4").value);
+        if (!isNaN(cm)) {
+            document.getElementById("in2").value = cm / 2.54;
+        }
+    }
+
+    function convertKgToLbs() {
+        let kg = parseFloat(document.getElementById("kg").value);
+        if (!isNaN(kg)) {
+            document.getElementById("lbs").value = kg * 2.20462;
+        }
+    }
+
+    function convertLbsToKg() {
+        let lbs = parseFloat(document.getElementById("lbs2").value);
+        if (!isNaN(lbs)) {
+            document.getElementById("kg2").value = lbs / 2.20462;
+        }
+    }
+
+    function convertLitersToGallons() {
+        let liters = parseFloat(document.getElementById("liters").value);
+        if (!isNaN(liters)) {
+            document.getElementById("gallons").value = liters * 0.264172;
+        }
+    }
+
+    function convertGallonsToLiters() {
+        let gallons = parseFloat(document.getElementById("gallons2").value);
+        if (!isNaN(gallons)) {
+            document.getElementById("liters2").value = gallons / 0.264172;
+        }
+    }
+
+    function convertCelsiusToFahrenheit() {
+        let celsius = parseFloat(document.getElementById("celsius").value);
+        if (!isNaN(celsius)) {
+            document.getElementById("fahrenheit").value = (celsius * 9/5) + 32;
+        }
+    }
+
+    function convertFahrenheitToCelsius() {
+        let fahrenheit = parseFloat(document.getElementById("fahrenheit2").value);
+        if (!isNaN(fahrenheit)) {
+            document.getElementById("celsius2").value = (fahrenheit - 32) * 5/9;
+        }
+    }
+
+    function convertJoulesToCalories() {
+        let joules = parseFloat(document.getElementById("joules").value);
+        if (!isNaN(joules)) {
+            document.getElementById("calories").value = joules / 4.184;
+        }
+    }
+
+    function convertCaloriesToJoules() {
+        let calories = parseFloat(document.getElementById("calories2").value);
+        if (!isNaN(calories)) {
+            document.getElementById("joules2").value = calories * 4.184;
+        }
+    }
+
+    function convertMpsToKmph() {
+        let mps = parseFloat(document.getElementById("mps").value);
+        if (!isNaN(mps)) {
+            document.getElementById("kmph").value = mps * 3.6;
+        }
+    }
+
+    function convertKmphToMps() {
+        let kmph = parseFloat(document.getElementById("kmph2").value);
+        if (!isNaN(kmph)) {
+            document.getElementById("mps2").value = kmph / 3.6;
+        }
+    }
+
+    // Enter key trigger for calculations
+    function handleKeyPress(event, id) {
+        if (event.key === "Enter") {
+            if (id === "cm") convertCmToM();
+            if (id === "m2") convertMToCm();
+            if (id === "in") convertInToCm();
+            if (id === "cm4") convertCmToIn();
+            if (id === "kg") convertKgToLbs();
+            if (id === "lbs2") convertLbsToKg();
+            if (id === "liters") convertLitersToGallons();
+            if (id === "gallons2") convertGallonsToLiters();
+            if (id === "celsius") convertCelsiusToFahrenheit();
+            if (id === "fahrenheit2") convertFahrenheitToCelsius();
+            if (id === "joules") convertJoulesToCalories();
+            if (id === "calories2") convertCaloriesToJoules();
+            if (id === "mps") convertMpsToKmph();
+            if (id === "kmph2") convertKmphToMps();
+        }
+    }
+
+    function validateInput(id) {
+        let value = document.getElementById(id).value;
+        if (value < 0) {
+            document.getElementById(id).value = "";
+        }
+    }
+</script>
+
+</body>
+</html>
