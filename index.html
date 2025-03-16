@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Factor X Converter By Shiyon Bency Philip</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Apply San Francisco Font */
+        @font-face {
+            font-family: 'San Francisco';
+            src: local('SF Pro Display'), local('SF Pro Text'), local('San Francisco');
+        }
+
+        body {
+            font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Motion Background */
+        body.light-mode {
+            background: linear-gradient(120deg, #89f7fe, #66a6ff);
+            animation: lightBackground 10s infinite alternate;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(120deg, #141e30, #243b55);
+            animation: darkBackground 10s infinite alternate;
+        }
+
+        @keyframes lightBackground {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes darkBackground {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .converter {
+            width: 400px;
+            margin: 50px auto;
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .converter.dark-mode {
+            background-color: rgba(36, 59, 85, 0.9);
+            color: #fff;
+        }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 5px 15px rgba(0,123,255,0.3);
+        }
+
+        .result-box {
+            padding: 15px;
+            margin-top: 20px;
+            background-color: rgba(0,123,255,0.1);
+            border-radius: 8px;
+            border: solid #007bff thick;
+        }
+
+        .formula-box {
+            padding: 15px;
+            margin-top: 15px;
+            background-color: rgba(40,167,69,0.1);
+            border-radius: thick solid green ;
+            
+``
+.formula-box {
+            padding: 15px;
+            margin-top: 15px;
+            background-color: rgba(40,167,69,0.1);
+            border-radius: 8px;
+            border: 2px solid #28a745;
+        }
+
+        .fraction {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            margin: 0 2px;
+        }
+
+        .numerator {
+            display: block;
+            padding: 0 5px;
+        }
+
+        .denominator {
+            display: block;
+            border-top: 2px solid;
+            padding: 0 5px;
+        }
+
+        .personalize {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: rgba(108,117,125,0.1);
+            border-radius: 8px;
+        }
+
+        .dark-mode .result-box {
+            background-color: rgba(0,123,255,0.2);
+            border-color: #89f7fe;
+        }
+
+        .dark-mode .formula-box {
+            background-color: rgba(40,167,69,0.2);
+            border-color: #28a745;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <div class="converter">
+        <h2>Factor X Converter By Shiyon Bency Philip</h2>
+        
+        <select id="conversionType">
+            <option value="cm-to-m">Centimeters to Meters</option>
+            <option value="m-to-cm">Meters to Centimeters</option>
+            <option value="in-to-cm">Inches to Centimeters</option>
+            <option value="cm-to-in">Centimeters to Inches</option>
+            <option value="kg-to-lb">Kilograms to Pounds</option>
+            <option value="lb-to-kg">Pounds to Kilograms</option>
+            <option value="l-to-gal">Liters to Gallons</option>
+            <option value="gal-to-l">Gallons to Liters</option>
+            <option value="c-to-f">Celsius to Fahrenheit</option>
+            <option value="f-to-c">Fahrenheit to Celsius</option>
+            <option value="j-to-cal">Joules to Calories</option>
+            <option value="cal-to-j">Calories to Joules</option>
+            <option value="m/s-to-km/h">M/s to km/h</option>
+            <option value="km/h-to-m/s">km/h to M/s</option>
+            <option value="mph-to-km/h">mph to km/h</option>
+            <option value="km/h-to-mph">km/h to mph</option>
+            <option value="ft-to-m">Feet to Meters</option>
+            <option value="m-to-ft">Meters to Feet</option>
+            <option value="yd-to-m">Yards to Meters</option>
+            <option value="m-to-yd">Meters to Yards</option>
+            <option value="mi-to-km">Miles to Kilometers</option>
+            <option value="km-to-mi">Kilometers to Miles</option>
+        </select>
+
+        <input type="number" id="inputValue" placeholder="Enter value" 
+               onkeypress="handleEnterKey(event)">
+
+        <button id="convertButton" onclick="convertUnits()">Convert</button>
+
+        <div class="result-box" id="result"></div>
+        <div class="formula-box" id="formula"></div>
+
+        <div class="personalize">
+            <label><input type="checkbox" id="showFormula" checked> Show Formula</label>
+            <button id="themeToggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+        </div>
+    </div>
+
+    <script>
+        // Handle Enter key
+        function handleEnterKey(e) {
+            if(e.key === 'Enter') convertUnits();
+        }
+
+        // Conversion logic
+        function convertUnits() {
+            const conversionType = document.getElementById('conversionType').value;
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const resultDiv = document.getElementById('result');
+            const formulaDiv = document.getElementById('formula');
+
+            if (isNaN(inputValue)) {
+                resultDiv.innerHTML = '⚠️ Please enter a valid number';
+                formulaDiv.innerHTML = '';
+                return;
+            }
+
+            let result, unit, formula;
+
+            switch(conversionType) {
+                case 'cm-to-m':
+                    result = inputValue / 100;
+                    unit = 'm';
+                    formula = `${inputValue} cm = ${inputValue}/100 m = `;
+                    break;
+                case 'm-to-cm':
+                    result = inputValue * 100;
+                    unit = 'cm';
+                    formula = `${inputValue} m = ${inputValue}×100 cm = `;
+                    break;
+                case 'in-to-cm':
+                    result = inputValue * 2.54;
+                    unit = 'cm';
+                    formula = `${inputValue} in = ${inputValue}×2.54 cm = `;
+                    break;
+                case 'cm-to-in':
+                    result = inputValue / 2.54;
+                    unit = 'in';
+                    formula = `${inputValue} cm = ${inputValue}/2.54 in = `;
+                    break;
+                case 'kg-to-lb':
+                    result = inputValue * 2.20462;
+                    unit = 'lb';
+                    formula = `${inputValue} kg = ${inputValue}×2.20462 lb = `;
+                    break;
+                case 'lb-to-kg':
+                    result = inputValue / 2.20462;
+                    unit = 'kg';
+                    formula = `${inputValue} lb = ${inputValue}/2.20462 kg = `;
+                    break;
+                case 'l-to-gal':
+                    result = inputValue * 0.264172;
+                    unit = 'gal';
+                    formula = `${inputValue} l = ${inputValue}×0.264172 gal = `;
+                    break;
+                case 'gal-to-l':
+                    result = inputValue / 0.264172;
+                    unit = 'l';
+                    formula = `${inputValue} gal = ${inputValue}/0.264172 l = `;
+                    break;
+                case 'c-to-f':
+                    result = (inputValue * 9/5) + 32;
+                    unit = '°F';
+                    formula = `${inputValue}°C = (${inputValue}×9/5) + 32 = `;
+                    break;
+                case 'f-to-c':
+                    result = (inputValue - 32) * 5/9;
+                    unit = '°C';
+                    formula = `${inputValue}°F = (${inputValue}-32)×5/9 = `;
+                    break;
+                case 'j-to-cal':
+                    result = inputValue / 4184;
+                    unit = 'cal';
+                    formula = `${inputValue} J = ${inputValue}/4184 cal = `;
+                    break;
+                case 'cal-to-j':
+                    result = inputValue * 4184;
+                    unit = 'J';
+                    formula = `${inputValue} cal = ${inputValue}×4184 J = `;
+                    break;
+                case 'm/s-to-km/h':
+                    result = inputValue * 3.6;
+                    unit = 'km/h';
+                    formula = `${inputValue} m/s = ${inputValue}×3.6 km/h = `;
+                    break;
+                case 'km/h-to-m/s':
+                    result = inputValue / 3.6;
+                    unit = 'm/s';
+                    formula = `${inputValue} km/h = ${inputValue}/3.6 m/s = `;
+                    break;
+                case 'mph-to-km/h':
+                    result = inputValue * 1.60934;
+                    unit = 'km/h';
+                    formula = `${inputValue} mph = ${inputValue}×1.60934 km/h = `;
+                    break;
+                case 'km/h-to-mph':
+                    result = inputValue / 1.60934;
+                    unit = 'mph';
+                    formula = `${inputValue} km/h = ${inputValue}/1.60934 mph = `;
+                    break;
+                case 'ft-to-m':
+                    result = inputValue * 0.3048;
+                    unit = 'm';
+                    formula = `${inputValue} ft = ${inputValue}×0.3048 m = `;
+                    break;
+                case 'm-to-ft':
+                    result = inputValue / 0.3048;
+                    unit = 'ft';
+                    formula = `${inputValue} m = ${inputValue}/0.3048 ft = `;
+                    break;
+                case 'yd-to-m':
+                    result = inputValue * 0.9144;
+                    unit = 'm';
+                    formula = `${inputValue} yd = ${inputValue}×0.9144 m = `;
+                    break;
+                case 'm-to-yd':
+                    result = inputValue / 0.9144;
+                    unit = 'yd';
+                    formula = `${inputValue} m = ${inputValue}/0.9144 yd = `;
+                    break;
+                case 'mi-to-km':
+                    result = inputValue * 1.60934;
+                    unit = 'km';
+                    formula = `${inputValue} mi = ${inputValue}×1.60934 km = `;
+                    break;
+                case 'km-to-mi':
+                    result = inputValue / 1.60934;
+                    unit = 'mi';
+                    formula = `${inputValue} km = ${inputValue}/1.60934 mi = `;
+                    break;
+            }
+
+            // Format result with proper units
+            resultDiv.innerHTML = `${result.toFixed(2)} <strong>${unit}</strong>`;
+
+            // Format formula with mathematical notation
+            if(document.getElementById('showFormula').checked) {
+                formula += `${result.toFixed(2)} ${unit}`;
+                formula = formula.replace(/(\d+)\/(\d+)/g, '<div class="fraction"><span class="numerator">$1</span><span class="denominator">$2</span></div>');
+                formula = formula.replace(/\×/g, '×');
+                formulaDiv.innerHTML = formula;
+                formulaDiv.style.display = 'block';
+            } else {
+                formulaDiv.style.display = 'none';
+            }
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.converter').classList.toggle('dark-mode');
+            document.querySelector('#themeToggle').textContent = 
+                document.body.classList.contains('dark-mode') ? '🌞 Light Mode' : '🌙 Dark Mode';
+        }
+    </script>
+</body>
+</html>
